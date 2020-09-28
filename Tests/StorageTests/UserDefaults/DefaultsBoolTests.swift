@@ -36,15 +36,15 @@ extension DefaultsBoolTests {
     typealias T = Bool
     private static let key = "bool"
 
-    func storage(_ value: T) -> DefaultsStorage<T> {
+    func storage(_ value: T) -> Storage<T> {
         let store = UserDefaults(suiteName: #file)
         store?.removePersistentDomain(forName: #file)
-        return DefaultsStorage(wrappedValue: value, type(of: self).key, store: store)
+        return Storage(wrappedValue: value, type(of: self).key, store: store)
     }
 
-    func storage(_ value: T?) -> DefaultsStorage<T?> {
+    func storage(_ value: T?) -> Storage<T?> {
         let store = UserDefaults(suiteName: #file)
         store?.removePersistentDomain(forName: #file)
-        return DefaultsStorage(type(of: self).key, store: store)
+        return Storage(type(of: self).key, store: store)
     }
 }

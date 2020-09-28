@@ -7,7 +7,7 @@ import SwiftUI
  */
 
 @frozen @propertyWrapper
-public struct DefaultsStorage<Value>: DynamicProperty {
+public struct Storage<Value>: DynamicProperty {
 
     @ObservedObject
     private var _value: RefStorage<Value>
@@ -36,7 +36,7 @@ public struct DefaultsStorage<Value>: DynamicProperty {
 
 }
 
-public extension DefaultsStorage {
+public extension Storage {
 
     init(wrappedValue: Value, _ key: String, store: UserDefaults? = nil) where Value == Bool {
         let store = store ?? .standard
@@ -88,7 +88,7 @@ public extension DefaultsStorage {
 
 }
 
-public extension DefaultsStorage where Value: ExpressibleByNilLiteral {
+public extension Storage where Value: ExpressibleByNilLiteral {
 
     init(_ key: String, store: UserDefaults? = nil) where Value == Bool? {
         let store = store ?? .standard
@@ -140,7 +140,7 @@ public extension DefaultsStorage where Value: ExpressibleByNilLiteral {
 
 }
 
-public extension DefaultsStorage where Value: RawRepresentable {
+public extension Storage where Value: RawRepresentable {
 
     init(wrappedValue: Value, _ key: String, store: UserDefaults? = nil) where Value.RawValue == String {
         let store = store ?? .standard
