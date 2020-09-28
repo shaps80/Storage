@@ -1,7 +1,10 @@
 import Foundation
 import SwiftUI
 
+/// A `Storage` property wrapped that makes use of `UserDefaults` for its store
 public typealias DefaultsStorage<Value> = Storage<UserDefaults, Value>
+
+/// A `Storage` property wrapped that makes use of `NSUbiquitousKeyValueStore` for its store
 public typealias CloudStorage<Value> = Storage<NSUbiquitousKeyValueStore, Value>
 
 /// A property wrapper type that reflects a value from `Store` and
