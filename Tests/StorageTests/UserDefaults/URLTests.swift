@@ -1,11 +1,11 @@
 import XCTest
 @testable import Storage
 
-final class DefaultsDataTests: XCTestCase {
+final class UrlTests: XCTestCase {
 
     func testNonOptional() {
-        let before = Data([1, 2, 3])
-        let after = Data([3, 2, 1])
+        let before = URL(string: "foo")!
+        let after = URL(string: "bar")!
         let store = storage(before)
         XCTAssertEqual(store.wrappedValue, before)
         store.wrappedValue = after
@@ -13,8 +13,8 @@ final class DefaultsDataTests: XCTestCase {
     }
 
     func testOptional() {
-        let before = Optional<Data>.none
-        let after = Data([3, 2, 1])
+        let before = Optional<URL>.none
+        let after = URL(string: "bar")
         let store = storage(before)
         XCTAssertEqual(store.wrappedValue, before)
         store.wrappedValue = after
@@ -22,27 +22,27 @@ final class DefaultsDataTests: XCTestCase {
     }
 
     func testKVO() {
-        let before = Data([1, 2, 3])
-        let after = Data([3, 2, 1])
+        let before = URL(string: "foo")!
+        let after = URL(string: "bar")!
         let store = storage(before)
         XCTAssertEqual(store.wrappedValue, before)
-        UserDefaults(suiteName: #file)?.set(after, forKey: type(of: self).key)
+        UserDefaults(suiteName: #file)?.set(after.absoluteString, forKey: type(of: self).key)
         XCTAssertEqual(store.wrappedValue, after)
     }
 
 }
 
-private extension DefaultsDataTests {
-    typealias T = Data
-    private static let key = "data"
+private extension UrlTests {
+    typealias T = URL
+    private static let key = "url"
 
-    func storage(_ value: T) -> Storage<T> {
+    func storage(_ value: T) -> DefaultsStorage<T> {
         let store = UserDefaults(suiteName: #file)
         store?.removePersistentDomain(forName: #file)
         return Storage(wrappedValue: value, type(of: self).key, store: store)
     }
 
-    func storage(_ value: T?) -> Storage<T?> {
+    func storage(_ value: T?) -> Storage<UserDefaults, T?> {
         let store = UserDefaults(suiteName: #file)
         store?.removePersistentDomain(forName: #file)
         return Storage(type(of: self).key, store: store)

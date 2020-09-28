@@ -1,11 +1,11 @@
 import XCTest
 @testable import Storage
 
-final class DefaultsIntTests: XCTestCase {
+final class StringTests: XCTestCase {
 
     func testNonOptional() {
-        let before = 1
-        let after = 2
+        let before = "foo"
+        let after = "bar"
         let store = storage(before)
         XCTAssertEqual(store.wrappedValue, before)
         store.wrappedValue = after
@@ -13,8 +13,8 @@ final class DefaultsIntTests: XCTestCase {
     }
 
     func testOptional() {
-        let before = Optional<Int>.none
-        let after = 1
+        let before = Optional<String>.none
+        let after = "bar"
         let store = storage(before)
         XCTAssertEqual(store.wrappedValue, before)
         store.wrappedValue = after
@@ -22,8 +22,8 @@ final class DefaultsIntTests: XCTestCase {
     }
 
     func testKVO() {
-        let before = 1
-        let after = 2
+        let before = "foo"
+        let after = "bar"
         let store = storage(before)
         XCTAssertEqual(store.wrappedValue, before)
         UserDefaults(suiteName: #file)?.set(after, forKey: type(of: self).key)
@@ -32,17 +32,17 @@ final class DefaultsIntTests: XCTestCase {
 
 }
 
-private extension DefaultsIntTests {
-    typealias T = Int
-    private static let key = "int"
+extension StringTests {
+    typealias T = String
+    private static let key = "string"
 
-    func storage(_ value: T) -> Storage<T> {
+    func storage(_ value: T) -> DefaultsStorage<T> {
         let store = UserDefaults(suiteName: #file)
         store?.removePersistentDomain(forName: #file)
         return Storage(wrappedValue: value, type(of: self).key, store: store)
     }
 
-    func storage(_ value: T?) -> Storage<T?> {
+    func storage(_ value: T?) -> Storage<UserDefaults, T?> {
         let store = UserDefaults(suiteName: #file)
         store?.removePersistentDomain(forName: #file)
         return Storage(type(of: self).key, store: store)
