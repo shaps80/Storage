@@ -1,6 +1,21 @@
+![ios](https://img.shields.io/badge/iOS-13-green)
+![tv](https://img.shields.io/badge/tvOS-13-green)
+![watch](https://img.shields.io/badge/watchOS-6-green)
+![mac](https://img.shields.io/badge/macOS-10.15-green)
+
 # Storage
 
-An implementation similar to `AppStorage` that also supports iOS 13, and can be used as a drop-in replacement.
+A SwiftUI dynamic property wrapper similar to `AppStore` that's back-ported to iOS 13.
+
+## Example
+
+Since the API is identical to `AppStorage` it can be used as such:
+
+```swift
+@DefaultsStorage(wrappedValue: true, "isRegistered") var isRegistered
+```
+
+## Features
 
 - Identical API
 - SwiftUI updates
@@ -14,14 +29,6 @@ In addition to an identical API, it adds support for other store types. By defau
 
 The first makes use of `UserDefaults` where the latter `NSUbiquitousKeyValueStore`.
 
-## Usage
-
-Since the API is identical to `AppStorage` it can be used as such:
-
-```swift
-@DefaultsStorage(wrappedValue: true, "isRegistered") var isRegistered
-```
-
 ## SwiftUI
 
 Similarly to `AppStorage` in iOS 14, the type supports `DynamicProperty` to allow automatic SwiftUI updates.
@@ -32,3 +39,5 @@ Resulting in the SwiftUI `View` automatically reload when a value changes, just 
 ## Installation
 
 Swift Package Manager is the recommended way to include this library, however given its a single file, you could equally just drag and `Storage.swift` file directly into your project.
+
+`https://github.com/shaps80/storage`
